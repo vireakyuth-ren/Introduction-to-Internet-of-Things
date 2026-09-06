@@ -31,4 +31,37 @@ python
 - If temp ≥ 28°C, sends an alert.
 - If relay is ON and temp drops below 28°C, it auto-turns OFF.
 
+**Flowchart**
+## How It Works
+
+The bot runs a single loop that repeats every 2 seconds. It's structured in three stages:
+
+### 1. Main loop
+
+- The board connects to Wi-Fi, then sends a welcome message and waits.
+- Each cycle, it first checks the Wi-Fi connection. If it's dropped, it reconnects and continues — the loop never gets stuck waiting on a connection.
+- It then checks for new Telegram messages and handles any commands (see below).
+- If monitoring has been started (`/start` was received), it also reads the sensor and checks for alerts.
+- After all of that, it waits 2 seconds and repeats.
+
+### 2. Command handling
+
+Every incoming Telegram message is routed based on its text:
+
+- `/start` — enables monitoring and confirms with a reply.
+- Any other command sent **before** `/start` — the bot replies asking for `/start` first and ignores the command.
+- Once started, `/status`, `/on`, and `/off` are handled individually: `/status` reads and reports the sensor, `/on`/`/off` toggle the relay directly.
+- Anything else is treated as an unknown command.
+
+### 3. Alert and relay logic
+
+This runs automatically every cycle once monitoring is active, independent of any Telegram command:
+
+- If the relay is **off** and temperature is still below 28°C — nothing happens.
+- If the relay is **off** and temperature reaches 28°C or higher — the bot sends a text alert only. It does **not** turn the relay on automatically.
+- If the relay is **on** and temperature drops below 28°C — the bot turns the relay off and sends an auto-off notification.
+- If the relay is **on** and temperature is still high — nothing happens; it stays on.
+
+In short: the relay only ever turns off automatically, never on. Turning it on is a manual action via `/on`.
+
 [Demo video link](https://youtube.com/shorts/T2WVA4LPYaw?feature=share)
