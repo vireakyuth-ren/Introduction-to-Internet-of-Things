@@ -2,6 +2,8 @@
 
 MicroPython project for ESP32: monitors temperature/humidity with a DHT11 sensor and controls a relay through a Telegram bot.
 
+This is a small IoT project that uses an ESP32 and a DHT11 sensor to keep an eye on temperature and humidity, with a relay you can control remotely through Telegram. Instead of building a web dashboard, the project wired it up to a Telegram bot so you send commands like /status to check the readings, or /on and /off to control the relay directly from your phone. It also handles itself a bit: if the temperature climbs too high it sends an alert, and if the relay's on and things cool back down, it switches off automatically.
+
 **Hardware**
 - ESP32
 - DHT11 sensor → GPIO 4
