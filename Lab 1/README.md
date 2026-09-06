@@ -1,4 +1,4 @@
-Explanation of the program
+**Explanation of the program**
 
 MicroPython project for ESP32: monitors temperature/humidity with a DHT11 sensor and controls a relay through a Telegram bot.
 
@@ -28,3 +28,5 @@ python
 - Alerts are only active after /start.
 - If temp ≥ 28°C, sends an alert.
 - If relay is ON and temp drops below 28°C, it auto-turns OFF.
+
+[Demo video link](https://youtube.com/shorts/T2WVA4LPYaw?feature=share)
