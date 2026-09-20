@@ -116,10 +116,10 @@ Drag the slider (0–180°). The angle shown on the page updates as you drag, an
 
 | Web page | LCD |
 |----------|-----|
-| ![Web page](images/webpage1.png) | ![LCD](images/lcd.jpg) |
-| ![Web page](images/webpage2.png) | ![LCD](images/lcd.jpg) |
-| ![Web page](images/webpage3.png) | ![LCD](images/lcd.jpg) |
-| ![Web page](images/webpage4.png) | ![LCD](images/lcd.jpg) |
+| ![Web page](images/webpage1.jpg) | ![LCD](images/lcd.jpg) |
+| ![Web page](images/webpage2.jpg) | ![LCD](images/lcd.jpg) |
+| ![Web page](images/webpage3.jpg) | ![LCD](images/lcd.jpg) |
+| ![Web page](images/webpage4.jpg) | ![LCD](images/lcd.jpg) |
 
 ## Demonstration Video
 
