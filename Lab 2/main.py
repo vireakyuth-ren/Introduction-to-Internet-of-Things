@@ -2,7 +2,8 @@ import network
 import socket
 import time
 import dht
-from machine import Pin, SoftI2C, time_pulse_us
+import json
+from machine import Pin, SoftI2C, time_pulse_us, PWM
 from machine_i2c_lcd import I2cLcd
 
 dht_sensor = dht.DHT11(Pin(33))
@@ -27,6 +28,10 @@ show_temperature = False
 
 ssid = "BR"
 password = "23456789"
+
+# Servo setup (signal wire on GPIO 13)
+servo = PWM(Pin(13), freq=50)
+servo_angle = 90
 
 
 def read_distance():
@@ -101,13 +106,7 @@ def display_message(message):
             time.sleep_ms(300)
 
 
-def create_webpage(
-    temperature,
-    humidity,
-    distance,
-    show_distance,
-    show_temperature
-):
+def format_readings(temperature, humidity, distance):
     temperature_text = (
         "Sensor error"
         if temperature is None
@@ -124,6 +123,23 @@ def create_webpage(
         "Out of range"
         if distance is None
         else f"{distance:.1f} cm"
+    )
+
+    return temperature_text, humidity_text, distance_text
+
+
+def create_webpage(
+    temperature,
+    humidity,
+    distance,
+    show_distance,
+    show_temperature,
+    servo_angle
+):
+    temperature_text, humidity_text, distance_text = format_readings(
+        temperature,
+        humidity,
+        distance
     )
 
     distance_btn_text = (
@@ -231,17 +247,17 @@ def create_webpage(
         <h2>DHT11 Sensor</h2>
 
         <p>Temperature</p>
-        <div class="value">{temperature_text}</div>
+        <div class="value" id="temperature">{temperature_text}</div>
 
         <p>Humidity</p>
-        <div class="value">{humidity_text}</div>
+        <div class="value" id="humidity">{humidity_text}</div>
     </div>
 
     <div class="card">
         <h2>HC-SR04 Sensor</h2>
 
         <p>Distance</p>
-        <div class="value">{distance_text}</div>
+        <div class="value" id="distance">{distance_text}</div>
     </div>
 
     <div class="card">
@@ -279,7 +295,48 @@ def create_webpage(
         <p id="status"></p>
     </div>
 
+    <div class="card">
+        <h2>Servo Control</h2>
+
+        <p>Angle</p>
+        <div class="value"><span id="angle-value">{servo_angle}</span>&deg;</div>
+
+        <input
+            type="range"
+            min="0"
+            max="180"
+            value="{servo_angle}"
+            oninput="document.getElementById('angle-value').innerHTML = this.value"
+            onchange="fetch('/servo?angle=' + this.value)"
+        >
+
+        <p>Move the slider to control the servo.</p>
+    </div>
+
     <script>
+        function updateSensors() {{
+
+            fetch("/data")
+            .then(function(response) {{
+                return response.json();
+            }})
+            .then(function(data) {{
+
+                document.getElementById("temperature").innerHTML =
+                    data.temperature;
+
+                document.getElementById("humidity").innerHTML =
+                    data.humidity;
+
+                document.getElementById("distance").innerHTML =
+                    data.distance;
+
+            }})
+            .catch(function() {{}});
+        }}
+
+        setInterval(updateSensors, 2000);
+
         function sendMessage() {{
 
             const message =
@@ -339,6 +396,36 @@ def display_temperature(temperature):
         lcd.putstr("Temp: ERROR     ")
     else:
         lcd.putstr(f"Temp: {temperature} C     ")
+
+
+def move_servo(angle):
+
+    # Keep the angle between 0 and 180 degrees
+    if angle < 0:
+        angle = 0
+
+    if angle > 180:
+        angle = 180
+
+    min_duty = 26
+    max_duty = 128
+
+    # Convert angle 0-180 degrees to a duty value in [min_duty, max_duty]
+    duty = int(
+        min_duty
+        + (angle / 180)
+        * (max_duty - min_duty)
+    )
+
+    # Send the calculated duty to the servo
+    servo.duty(duty)
+
+    print("Servo angle:", angle)
+    print("PWM duty:", duty)
+
+
+# Initial servo position
+move_servo(servo_angle)
 
 
 wifi = network.WLAN(network.STA_IF)
@@ -459,6 +546,97 @@ while True:
             continue
 
 
+        if "GET /servo?angle=" in request_line:
+
+            try:
+                start = (
+                    request_line.find("angle=")
+                    + len("angle=")
+                )
+
+                end = request_line.find(
+                    " ",
+                    start
+                )
+
+                servo_angle = int(
+                    request_line[start:end]
+                )
+
+                if servo_angle < 0:
+                    servo_angle = 0
+
+                if servo_angle > 180:
+                    servo_angle = 180
+
+                move_servo(servo_angle)
+
+            except Exception as error:
+                print(
+                    "Servo control error:",
+                    error
+                )
+
+            client.send(
+                "HTTP/1.1 204 No Content\r\n"
+            )
+
+            client.send(
+                "Connection: close\r\n"
+            )
+
+            client.send("\r\n")
+
+            continue
+
+
+        if "GET /data" in request_line:
+
+            temperature, humidity = read_dht11()
+
+            distance = read_distance()
+
+            if show_distance:
+                display_distance(distance)
+
+            if show_temperature:
+                display_temperature(temperature)
+
+            temperature_text, humidity_text, distance_text = (
+                format_readings(
+                    temperature,
+                    humidity,
+                    distance
+                )
+            )
+
+            body = json.dumps({
+                "temperature": temperature_text,
+                "humidity": humidity_text,
+                "distance": distance_text
+            })
+
+            client.send(
+                "HTTP/1.1 200 OK\r\n"
+            )
+
+            client.send(
+                "Content-Type: application/json\r\n"
+            )
+
+            client.send(
+                "Connection: close\r\n"
+            )
+
+            client.send("\r\n")
+
+            client.sendall(
+                body.encode("utf-8")
+            )
+
+            continue
+
+
         temperature, humidity = read_dht11()
 
         distance = read_distance()
@@ -479,7 +657,7 @@ while True:
         )
 
 
-        if "/?distance=toggle" in request:
+        if "/?distance=toggle" in request_line:
 
             show_distance = not show_distance
 
@@ -500,7 +678,7 @@ while True:
                 )
 
 
-        elif "/?temperature=toggle" in request:
+        elif "/?temperature=toggle" in request_line:
 
             show_temperature = not show_temperature
 
@@ -537,7 +715,8 @@ while True:
             humidity,
             distance,
             show_distance,
-            show_temperature
+            show_temperature,
+            servo_angle
         )
 
 
