@@ -14,7 +14,7 @@ Course: Introduction to Internet of Things – Lab 2 (Task 6: Documentation and 
 | `lcd_api.py` | LCD base API (helper) |
 | `machine_i2c_lcd.py` | I2C LCD driver (helper) |
 | `Lab2_Task1.py` – `Lab2_Task4.py` | Individual task versions (sensors, LCD buttons, servo, custom text) |
-| `LAB2_Webserver_LCD_Servo_Control.pdf` | Lab handout |
+| `Lab2_Instructions.pdf` | Lab handout |
 | `wiring_diagram.jpg` | Wiring diagram |
 
 ---
@@ -119,6 +119,11 @@ Drag the slider (0–180°). The angle shown on the page updates as you drag, an
 | ![Web page](images/webpage1.jpg) | Task 1&2 |
 | ![Web page](images/webpage2.jpg) | Task 3 |
 | ![Web page](images/webpage3.jpg) | Task 4 |
+
+| LCD | Description |
+|----------|-----|
+| ![LCD](images/LCD1.jpg) |  |
+| ![LCD](images/LCD2.jpg) | Task 3 |
 
 ## Demonstration Video
 
