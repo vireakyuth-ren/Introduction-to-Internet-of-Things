@@ -61,7 +61,7 @@ def create_webpage(temperature, humidity, distance):
 <head>
     <title>ESP32 Sensor Monitoring</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="3">
+    <meta http-equiv="refresh" content="2">
     <style>
         body {{
             font-family: Arial, sans-serif;
