@@ -123,7 +123,7 @@ Drag the slider (0–180°). The angle shown on the page updates as you drag, an
 | LCD | Description |
 |----------|-----|
 | ![LCD](images/LCD1.jpg) |  |
-| ![LCD](images/LCD2.jpg) | Task 3 |
+| ![LCD](images/LCD2.png) | Task 3 |
 
 ## Demonstration Video
 
