@@ -114,7 +114,7 @@ Drag the slider (0–180°). The angle shown on the page updates as you drag, an
 
 ## Screenshots
 
-| Web page | LCD |
+| Web page | Description |
 |----------|-----|
 | ![Web page](images/webpage1.jpg) | ![Description] Task 1&2 |
 | ![Web page](images/webpage2.jpg) | ![Description] Task 3 |
