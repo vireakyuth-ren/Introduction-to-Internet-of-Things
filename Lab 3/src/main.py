@@ -42,11 +42,11 @@ def send_IR_status(status):
 
 # ----- Task 2 -----
 def move_servo(angle):
-    # Keep the angle between 0 and 180 degrees
-    if angle < 0:
-        angle = 0
-    if angle > 180:
-        angle = 180
+    # Keep the angle between 45 and 115 degrees
+    if angle < 45:
+        angle = 45
+    if angle > 115:
+        angle = 115
 
     min_duty = 26
     max_duty = 128
@@ -64,6 +64,14 @@ def get_servo_angle():
     r.close()
     return angle
 
+# ---------- Task 3 ----------
+def register_detection():
+    global count
+    count += 1
+    print("Detections:", count)
+    tm.show_number(count)
+    send_car_count(count)
+
 
 # ----- Task 4 -----
 def send_car_count(count):
@@ -72,7 +80,7 @@ def send_car_count(count):
     r.close()
 
 
-# ----- Task 5 (mode switch on V3: 0 = Automatic, 1 = Manual) -----
+# ----- Task 5 -----
 def get_mode():
     r = requests.get(f"{BLYNK_API}/get?token={BLYNK_TOKEN}&V3")
     mode = int(float(str(r.text).strip('[]"{}')))
@@ -91,21 +99,11 @@ last_angle = None
 last_poll = time.ticks_ms()
 
 
-# ---------- COUNTER ----------
-def register_detection():
-    global count
-    count += 1
-    print("Detections:", count)
-    tm.show_number(count)
-    send_car_count(count)
-
-
 # ---------- MODES ----------
 def automatic(value):
     global gate_open, clear_since
 
     if value == 0:
-        # Object present: cancel any pending close
         clear_since = None
 
         # New detection: open the gate once and count it once
@@ -145,15 +143,12 @@ move_servo(CLOSED_ANGLE)
 
 while True:
     try:
-        # --- Task 1: IR status on every state change (both modes) ---
         value = ir.value()
         if value != last_value:
             if value == 0:
                 print("Detected")
                 send_IR_status("Detected")
 
-                # Manual mode: every new detection is counted.
-                # (Automatic mode counts once per gate opening, in automatic().)
                 if mode == 1:
                     register_detection()
             else:
@@ -161,7 +156,6 @@ while True:
                 send_IR_status("Not%20detected")
             last_value = value
 
-        # --- Poll mode (and slider in manual) at a limited rate ---
         now = time.ticks_ms()
         if time.ticks_diff(now, last_poll) >= POLL:
             last_poll = now
@@ -180,7 +174,7 @@ while True:
             if mode == 1:
                 manual()
  
-        # --- Automatic mode: IR controls the gate every loop ---4
+        # ----- Automatic mode -----
         if mode == 0:
             automatic(value)
 
