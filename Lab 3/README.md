@@ -26,7 +26,7 @@ An ESP32 running MicroPython that controls a servo-driven gate using an IR senso
 
 ## Wiring
 
-![Wiring diagram](wiring_diagram.png)
+![Wiring diagram](images/wiring_diagram.png)
 
 | Component | Pin | ESP32 GPIO |
 |-----------|-----|-----------|
