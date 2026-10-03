@@ -2,8 +2,6 @@
 
 An ESP32 running MicroPython that controls a servo-driven gate using an IR sensor and a Blynk dashboard. The gate can run on its own (**Automatic** mode) or be moved from a Blynk slider (**Manual** mode). Detections are counted on a TM1637 display and mirrored to Blynk.
 
-Course: Introduction to Internet of Things – Lab 3 (Task 6: Documentation and Demonstration)
-
 ---
 
 ## Repository Contents
