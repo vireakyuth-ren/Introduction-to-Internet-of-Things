@@ -49,8 +49,8 @@ Create a template in Blynk Console with these four datastreams, then add a devic
 | Virtual Pin | Name | Data type | Range | Used for |
 |-------------|------|-----------|-------|----------|
 | `V0` | IR Status | String | – | Shows `Detected` / `Not detected` |
-| `V1` | Servo Angle | Integer | 0 – 180 | Slider that sets the servo angle (Manual mode) |
-| `V2` | Detection Count | Integer | 0 – 9999 | Shows the detection counter |
+| `V1` | Servo Angle | Integer | 45 – 115 | Slider that sets the servo angle (Manual mode) |
+| `V2` | Detection Count | Integer | 0 – 1000 | Shows the detection counter |
 | `V3` | Mode | Integer | 0 – 1 | Switch: `0` = Automatic, `1` = Manual |
 
 ### 2. Blynk dashboard widgets
@@ -58,7 +58,7 @@ Create a template in Blynk Console with these four datastreams, then add a devic
 | Widget | Virtual Pin | Settings |
 |--------|-------------|----------|
 | Label | `V0` | Shows the IR sensor status |
-| Slider | `V1` | Min 0, Max 180 |
+| Slider | `V1` | Min 45, Max 115 |
 | Value Display | `V2` | Shows the detection count |
 | Switch | `V3` | OFF sends `0`, ON sends `1` |
 
