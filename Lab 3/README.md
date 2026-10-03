@@ -131,7 +131,7 @@ The angles and delay are set at the top of `main.py` (`OPEN_ANGLE`, `CLOSED_ANGL
 
 ## Demonstration Video
 
-▶ [Watch the demo](ADD_YOUR_VIDEO_LINK_HERE)
+▶ [Watch the demo](https://aupp.instructuremedia.com/embed/a0835d09-1d86-4a4c-a7ea-1517ecdb5204)
 
 The video shows: the IR status updating on Blynk, the slider moving the servo in Manual mode, the gate opening and closing automatically in Automatic mode, and the TM1637 and Blynk showing the same count.
 
