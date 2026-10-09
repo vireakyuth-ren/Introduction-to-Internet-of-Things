@@ -17,3 +17,7 @@ This project implements real-time finger count detection using an ESP32-CAM modu
 1. Flash the ESP32-CAM firmware with the provided camera web server sketch.
 2. Update the video stream IP address in your Python script.
 3. Run the detection script:
+
+## Demonstration Video
+https://www.youtube.com/shorts/VYa5r4UPOhg
+
