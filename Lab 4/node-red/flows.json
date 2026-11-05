@@ -1,0 +1,159 @@
+[
+    {
+        "id": "da95370b65fedd5b",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7215730db22c6a53",
+        "type": "mqtt in",
+        "z": "da95370b65fedd5b",
+        "name": "",
+        "topic": "/aupp/lab4",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "dd32715f4ba5a626",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 633.2000122070312,
+        "y": 46.20000076293945,
+        "wires": [
+            [
+                "0e58eb474532f618",
+                "0884cdb942bde6c2"
+            ]
+        ]
+    },
+    {
+        "id": "0e58eb474532f618",
+        "type": "debug",
+        "z": "da95370b65fedd5b",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 933.2000122070312,
+        "y": 46.20000076293945,
+        "wires": []
+    },
+    {
+        "id": "08c1a6e021675553",
+        "type": "influxdb out",
+        "z": "da95370b65fedd5b",
+        "influxdb": "cca629501cb3bd44",
+        "name": "",
+        "measurement": "bmp280",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1223.2000122070312,
+        "y": 166.20000076293945,
+        "wires": []
+    },
+    {
+        "id": "0884cdb942bde6c2",
+        "type": "function",
+        "z": "da95370b65fedd5b",
+        "name": "function 2",
+        "func": "msg.measurement = \"bmp280\";\n\nconst d = msg.payload;\n\nconst fields = {\n    gas_raw: Number(d.gas_raw),\n    gas_avg: Number(d.gas_avg),\n    risk_code: Number(d.risk_code),\n    risk_level: String(d.risk_level),\n    fever_flag: Number(d.fever_flag),\n    pressure: Number(d.pressure),\n    altitude: Number(d.altitude),\n    rtc_timestamp: String(d.timestamp)\n};\n\n// body_temp can be null if the MLX90614 read fails.\n// Number(null) would become 0 and show a fake 0 °C reading, so skip it instead.\nif (d.body_temp !== null && d.body_temp !== undefined) {\n    fields.body_temp = Number(d.body_temp);\n}\n\nmsg.payload = fields;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 813.2000122070312,
+        "y": 166.20000076293945,
+        "wires": [
+            [
+                "08c1a6e021675553",
+                "bd25ac5dc17dea53"
+            ]
+        ]
+    },
+    {
+        "id": "bd25ac5dc17dea53",
+        "type": "debug",
+        "z": "da95370b65fedd5b",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1033.2000122070312,
+        "y": 386.20000076293945,
+        "wires": []
+    },
+    {
+        "id": "dd32715f4ba5a626",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "cca629501cb3bd44",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "lab4_iot",
+        "name": "",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "timeout": 10,
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "b4e2ae509f30251c",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-influxdb": "0.7.0"
+        }
+    }
+]
