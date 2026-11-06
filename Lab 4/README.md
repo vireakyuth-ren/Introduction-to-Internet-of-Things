@@ -59,10 +59,10 @@ Packet (topic `/aupp/lab4`, every 2 s):
 
 | Task | Screenshot |
 |---|---|
-| 1. Gas moving average | `img/gas_avg.png` |
-| 2. Risk states | `img/risk_level.png` |
-| 3. Fever detection | `img/body_temp.png` |
-| 4. Grafana dashboard | `img/dashboard1.png` |
+| 1. Gas moving average | [Gas Average](img/gas_avg.png) |
+| 2. Risk states | [Risk Status](img/risk_level.png) |
+| 3. Body Temperature | [Body Temp](img/body_temp.png) |
+| 4. Grafana dashboard | [Dashboard](img/dashboard1.png) |
 
 
 ## Troubleshooting
