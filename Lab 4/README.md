@@ -3,10 +3,8 @@
 ESP32 (MicroPython) reads four sensors, applies edge logic, and publishes over MQTT to Node-RED, which stores data in InfluxDB for Grafana.
 Detailed Lab instructions in /img/LAB4_Multi_Sensor_IoT_Grafana.pdf
 
-```
-flowchart LR
-    A[ESP32 + sensors] -->|MQTT /aupp/lab4| B[Broker] --> C[Node-RED] --> D[(InfluxDB)] --> E[Grafana]
-```
+## Data Flow
+![Data Flow](lab4_system_data_flow.png)
 
 ## Wiring
 
@@ -28,6 +26,8 @@ Diagram: `docs/wiring-diagram.png`
 - Fever: `fever_flag = 1` if body temp ≥ 32.5 °C
 - Pressure (hPa) and altitude (m) sent as read
 - Timestamp from DS3231
+
+![Edge Logic](lab4_esp32_edge_logic_flowchart.png)
 
 Packet (topic `/aupp/lab4`, every 2 s):
 
