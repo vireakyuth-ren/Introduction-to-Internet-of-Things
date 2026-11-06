@@ -39,8 +39,8 @@ Packet (topic `/aupp/lab4`, every 2 s):
 
 ## Setup
 
-1. **ESP32:** copy `firmware/main.py` and `bmp280.py` to the board. Put Wi-Fi details in `secrets.py` (not committed). Set the RTC once with `rtc.set_datetime(...)`, then comment it out.
-2. **Node-RED:** import `node-red/flows.json`. MQTT node output: parsed JSON, topic `/aupp/lab4`. InfluxDB node: `127.0.0.1:8086`, database `lab4_iot`, measurement `bmp280`. Deploy.
+1. **ESP32:** copy `src/main.py` and `lib/bmp280.py` to the board. Put Wi-Fi details, Client ID, etc... in `main.py`. Set the RTC once with `rtc.set_datetime(...)`, then comment it out.
+2. **Node-RED:** import `node-red/flows.json`. MQTT node output: parsed JSON, topic `/aupp/lab4`. InfluxDB node: `127.0.0.1:8086`, database `lab4_iot`, measurement `bmp280`. Deploy. 
 3. **InfluxDB:** `CREATE DATABASE lab4_iot`
 4. **Grafana:** add InfluxDB data source (InfluxQL, database `lab4_iot`) and import `grafana/dashboard.json`.
 
@@ -76,3 +76,4 @@ Packet (topic `/aupp/lab4`, every 2 s):
 
 - Public brokers are open: use a unique topic.
 - Never commit Wi-Fi credentials.
+- [Demo]()
