@@ -76,4 +76,4 @@ Packet (topic `/aupp/lab4`, every 2 s):
 
 - Public brokers are open: use a unique topic.
 - Never commit Wi-Fi credentials.
-- [Demo]()
+- [Demo](https://aupp.instructuremedia.com/embed/7beded2c-cf70-4fd5-8201-5ff7e8c091e6)
