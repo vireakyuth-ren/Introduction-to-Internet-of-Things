@@ -4,7 +4,7 @@ ESP32 (MicroPython) reads four sensors, applies edge logic, and publishes over M
 Detailed Lab instructions in /img/LAB4_Multi_Sensor_IoT_Grafana.pdf
 
 ## Data Flow
-![Data Flow](lab4_system_data_flow.png)
+![Data Flow](img/lab4_system_data_flow.png)
 
 ## Wiring
 
@@ -27,7 +27,7 @@ Diagram: `docs/wiring-diagram.png`
 - Pressure (hPa) and altitude (m) sent as read
 - Timestamp from DS3231
 
-![Edge Logic](lab4_esp32_edge_logic_flowchart.png)
+![Edge Logic](img/lab4_esp32_edge_logic_flowchart.png)
 
 Packet (topic `/aupp/lab4`, every 2 s):
 
