@@ -1,6 +1,7 @@
 # Lab 4 – Multi-Sensor IoT Monitoring
 
 ESP32 (MicroPython) reads four sensors, applies edge logic, and publishes over MQTT to Node-RED, which stores data in InfluxDB for Grafana.
+Detailed Lab instructions in /img/LAB4_Multi_Sensor_IoT_Grafana.pdf
 
 ```
 flowchart LR
@@ -58,10 +59,10 @@ Packet (topic `/aupp/lab4`, every 2 s):
 
 | Task | Screenshot |
 |---|---|
-| 1. Gas moving average | `docs/screenshots/task1-serial.png` |
-| 2. Risk states | `docs/screenshots/task2-*.png` |
-| 3. Fever detection | `docs/screenshots/task3-fever.png` |
-| 4. Grafana dashboard | `docs/screenshots/task4-dashboard.png` |
+| 1. Gas moving average | `img/gas_avg.png` |
+| 2. Risk states | `img/risk_level.png` |
+| 3. Fever detection | `img/body_temp.png` |
+| 4. Grafana dashboard | `img/dashboard1.png` |
 
 
 ## Troubleshooting
@@ -75,5 +76,3 @@ Packet (topic `/aupp/lab4`, every 2 s):
 
 - Public brokers are open: use a unique topic.
 - Never commit Wi-Fi credentials.
-
-Author: Your Name, AUPP
